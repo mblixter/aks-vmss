@@ -35,16 +35,15 @@ fi
 # Create default hosts.toml
 cat <<EOF > "$DEFAULT_HOSTS_FILE"
 # Default hosts.toml for containerd
-[host."https://$REGISTRY_MIRROR_URL"]
+[host."$REGISTRY_MIRROR_URL"]
   capabilities = ["pull", "resolve"]
   skip_verify = true
 EOF
 
-
-# Append custom host entries to /etc/hosts if not already present
-grep -q "$PRIVATE_FILE_STORAGE_URL" /etc/hosts || echo "$PRIVATE_FILE_STORAGE_URL" >> /etc/hosts
-grep -q "$FILE_STORAGE_URL" /etc/hosts || echo "$FILE_STORAGE_URL" >> /etc/hosts
-
-
 # Restart containerd to apply changes
 systemctl restart containerd
+
+Not Needed once IT fixes the issue with the private endpoint
+# Append custom host entries to /etc/hosts if not already present
+# grep -q "$PRIVATE_FILE_STORAGE_URL" /etc/hosts || echo "$PRIVATE_FILE_STORAGE_URL" >> /etc/hosts
+# grep -q "$FILE_STORAGE_URL" /etc/hosts || echo "$FILE_STORAGE_URL" >> /etc/hosts
