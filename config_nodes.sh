@@ -43,7 +43,7 @@ EOF
 # Restart containerd to apply changes
 systemctl restart containerd
 
-Not Needed once IT fixes the issue with the private endpoint
+# Not Needed once IT fixes the issue with the private endpoint
 # Append custom host entries to /etc/hosts if not already present
-# grep -q "$PRIVATE_FILE_STORAGE_URL" /etc/hosts || echo "$PRIVATE_FILE_STORAGE_URL" >> /etc/hosts
-# grep -q "$FILE_STORAGE_URL" /etc/hosts || echo "$FILE_STORAGE_URL" >> /etc/hosts
+grep -q "$PRIVATE_FILE_STORAGE_URL" /etc/hosts || echo "$PRIVATE_FILE_STORAGE_URL" >> /etc/hosts
+grep -q "$FILE_STORAGE_URL" /etc/hosts || echo "$FILE_STORAGE_URL" >> /etc/hosts
