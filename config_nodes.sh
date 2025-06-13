@@ -38,7 +38,13 @@ echo "PRIVATE_FILE_STORAGE_URL: $PRIVATE_FILE_STORAGE_URL"
 mkdir -p "$CONFIG_PATH"
 
 # Backup the original containerd config
-cp /etc/containerd/config.toml /etc/containerd/config.toml.bak
+containerdConfig=/etc/containerd/config.toml
+if [ -f "$containerdConfig" ]; then
+  cp "$containerdConfig" "${containerdConfig}.bak"
+  echo "$containerdConfig copied successfully!"
+else
+  echo "$containerdConfig does not exist."
+fi
 
 # Set config_path in config.toml
 if grep -q 'config_path' /etc/containerd/config.toml; then
