@@ -42,10 +42,15 @@ containerdConfig=/etc/containerd/config.toml
 if [ -f "$containerdConfig" ]; then
   cp "$containerdConfig" "${containerdConfig}.bak"
   echo "$containerdConfig copied successfully!"
+  if grep -q 'config_path' /etc/containerd/config.toml; then
+    # Update existing config_path
+    sed -i 's|config_path = .*|config_path = "/etc/containerd/certs.d"|' /etc/containerd/config.toml      
+  fi
 else
   echo "$containerdConfig does not exist."
-  touch $containerdConfig
-  echo "created $containerdConfig"
+  # Add config_path under the registry section
+  sed -i '/\[plugins."io.containerd.grpc.v1.cri".registry\]/a\  config_path = "/etc/containerd/certs.d"' /etc/containerd/config.toml
+  echo "created $containerdConfig and added config"
 fi
 
 # Set config_path in config.toml
