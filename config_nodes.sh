@@ -47,19 +47,11 @@ if [ -f "$containerdConfig" ]; then
     sed -i 's|config_path = .*|config_path = "/etc/containerd/certs.d"|' /etc/containerd/config.toml      
   fi
 else
-  echo "$containerdConfig does not exist."
+  echo "$containerdConfig does not exist, creating it now"
+  touch $containerdConfig
   # Add config_path under the registry section
   sed -i '/\[plugins."io.containerd.grpc.v1.cri".registry\]/a\  config_path = "/etc/containerd/certs.d"' /etc/containerd/config.toml
   echo "created $containerdConfig and added config"
-fi
-
-# Set config_path in config.toml
-if grep -q 'config_path' /etc/containerd/config.toml; then
-    # Update existing config_path
-    sed -i 's|config_path = .*|config_path = "/etc/containerd/certs.d"|' /etc/containerd/config.toml
-else
-    # Add config_path under the registry section
-    sed -i '/\[plugins."io.containerd.grpc.v1.cri".registry\]/a\  config_path = "/etc/containerd/certs.d"' /etc/containerd/config.toml
 fi
 
 # Create default hosts.toml
