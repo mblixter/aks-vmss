@@ -44,7 +44,8 @@ if [ -f "$containerdConfig" ]; then
   echo "$containerdConfig copied successfully!"
 else
   echo "$containerdConfig does not exist."
-  touch /etc/containerd/config.toml
+  touch $containerdConfig
+  echo "created $containerdConfig"
 fi
 
 # Set config_path in config.toml
