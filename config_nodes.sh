@@ -10,13 +10,30 @@ DEFAULT_HOSTS_FILE="${CONFIG_PATH}/hosts.toml"
 #FILE_STORAGE_URL="$FILE_STORAGE_URL"
 #PRIVATE_FILE_STORAGE_URL="$PRIVATE_FILE_STORAGE_URL"
 
-# Ensure the environment variables are set
+# Loop through arguments
+for arg in "$@"; do
+  case "$arg" in
+    REGISTRY_MIRROR_URL=*) REGISTRY_MIRROR_URL="${arg#*=}" ;;
+    FILE_STORAGE_URL=*) FILE_STORAGE_URL="${arg#*=}" ;;
+    PRIVATE_FILE_STORAGE_URL=*) PRIVATE_FILE_STORAGE_URL="${arg#*=}" ;;
+    PRIVATE_FILE_STORAGE_URL=*) PRIVATE_FILE_STORAGE_URL="${arg#*=}" ;;
+  esac
+done
+
+
+
+# Ensure the variables are set
+# env
 if [ -z "$REGISTRY_MIRROR_URL" ] || [ -z "$FILE_STORAGE_URL" ] || [ -z "$PRIVATE_FILE_STORAGE_URL" ]; then
     echo "Error: Environment variables REGISTRY_MIRROR_URL, FILE_STORAGE_URL, and PRIVATE_FILE_STORAGE_URL must be set."
     exit 1
 fi
 
+echo "REGISTRY_MIRROR_URL: $REGISTRY_MIRROR_URL"
+echo "FILE_STORAGE_URL: $FILE_STORAGE_URL"
+echo "PRIVATE_FILE_STORAGE_URL: $PRIVATE_FILE_STORAGE_URL"
 
+# exit 0
 # Ensure the directory exists
 mkdir -p "$CONFIG_PATH"
 
